@@ -39,10 +39,11 @@ function PinIcon() {
   );
 }
 
-function PhoneIcon() {
+function LinkedInIcon() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M8.5 3H5a2 2 0 0 0-2 2c0 8.8 7.2 16 16 16a2 2 0 0 0 2-2v-3.5l-4-1-1.3 2.6a14 14 0 0 1-8.8-8.8L9.5 7l-1-4Z" />
+      <rect x="3.5" y="3.5" width="17" height="17" rx="2.5" />
+      <path d="M8 10.8v5.7M8 7.6v.01M12.2 16.5v-3.4c0-1.1.8-1.9 1.9-1.9s1.9.8 1.9 1.9v3.4" />
     </svg>
   );
 }
@@ -61,6 +62,33 @@ function SectionHeading({
         {kicker}
       </p>
       <h2>{title}</h2>
+    </div>
+  );
+}
+
+function ProjectPreview({
+  type,
+  logo,
+  mark,
+}: {
+  type: "web" | "mobile";
+  logo: string;
+  mark: string;
+}) {
+  const isMobile = type === "mobile";
+
+  return (
+    <div
+      className={
+        isMobile ? "project-preview project-preview-mobile" : "project-preview"
+      }
+    >
+      <img
+        src={isMobile ? mark : logo}
+        alt=""
+        width={isMobile ? 96 : 220}
+        height={isMobile ? 96 : 76}
+      />
     </div>
   );
 }
@@ -88,10 +116,12 @@ export default function Portfolio({ content }: Props) {
           </a>
 
           <nav className="desktop-nav" aria-label="Primary navigation">
+            <a href="#top">{nav.home}</a>
+            <a href="#stack">{nav.stack}</a>
             <a href="#about">{nav.about}</a>
             <a href="#experience">{nav.experience}</a>
             <a href="#projects">{nav.projects}</a>
-            <a href="#skills">{nav.skills}</a>
+            <a href="#education">{nav.education}</a>
           </nav>
 
           <div className="header-actions">
@@ -115,10 +145,12 @@ export default function Portfolio({ content }: Props) {
                 <span />
               </summary>
               <nav aria-label="Mobile navigation">
+                <a href="#top">{nav.home}</a>
+                <a href="#stack">{nav.stack}</a>
                 <a href="#about">{nav.about}</a>
                 <a href="#experience">{nav.experience}</a>
                 <a href="#projects">{nav.projects}</a>
-                <a href="#skills">{nav.skills}</a>
+                <a href="#education">{nav.education}</a>
                 <a href="#contact">{nav.contact}</a>
               </nav>
             </details>
@@ -156,10 +188,15 @@ export default function Portfolio({ content }: Props) {
             </div>
           </div>
 
-          <div className="hero-aside" aria-hidden="true">
-            <span className="code-label">&lt;developer&gt;</span>
-            <div className="monogram">JP</div>
-            <span className="code-label">&lt;/developer&gt;</span>
+          <div className="hero-aside">
+            <div className="hero-portrait">
+              <img
+                src="/profile/image.png"
+                alt="Caricatura de Juan Pablo Sanabria"
+                width={640}
+                height={800}
+              />
+            </div>
           </div>
 
           <div className="scroll-cue" aria-hidden="true">
@@ -168,7 +205,7 @@ export default function Portfolio({ content }: Props) {
           </div>
         </section>
 
-        <section className="technology-strip section-wrap" id="skills">
+        <section className="technology-strip section-wrap" id="stack">
           <SectionHeading kicker={labels.stackKicker} title={labels.stack} />
           <div
             className="tech-carousel"
@@ -184,12 +221,26 @@ export default function Portfolio({ content }: Props) {
                   <div
                     className="tech-card"
                     aria-hidden={index >= shared.technologies.length}
-                    key={`${technology}-${index}`}
+                    key={`${technology.name}-${index}`}
                   >
-                    <span className="tech-mark" aria-hidden="true">
-                      &lt;/&gt;
+                    <span
+                      className={[
+                        "tech-mark",
+                        technology.invert ? "tech-mark-invert" : "",
+                        technology.scale === "lg" ? "tech-mark-lg" : "",
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
+                      aria-hidden="true"
+                    >
+                      <img
+                        src={technology.icon}
+                        alt=""
+                        width={technology.scale === "lg" ? 42 : 28}
+                        height={technology.scale === "lg" ? 42 : 28}
+                      />
                     </span>
-                    <span>{technology}</span>
+                    <span>{technology.name}</span>
                   </div>
                 ),
               )}
@@ -230,15 +281,24 @@ export default function Portfolio({ content }: Props) {
                   <span>{String(index + 1).padStart(2, "0")}</span>
                 </div>
                 <div className="timeline-main">
-                  <p className="timeline-period">{job.period}</p>
-                  <h3>{job.company}</h3>
-                  <h4>{job.role}</h4>
-                  <p className="timeline-description">{job.description}</p>
-                  <ul className="tag-list" aria-label="Technologies">
-                    {job.technologies.map((technology) => (
-                      <li key={technology}>{technology}</li>
-                    ))}
-                  </ul>
+                  <div className="timeline-place">
+                    <span className="timeline-logo">
+                      <img src={job.logo} alt="" width={64} height={64} />
+                    </span>
+                    <div className="timeline-heading">
+                      <h3>{job.company}</h3>
+                      <h4>{job.role}</h4>
+                      <p className="timeline-period">{job.period}</p>
+                    </div>
+                  </div>
+                  <div className="timeline-body">
+                    <p className="timeline-description">{job.description}</p>
+                    <ul className="tag-list" aria-label="Technologies">
+                      {job.technologies.map((technology) => (
+                        <li key={technology}>{technology}</li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </article>
             ))}
@@ -258,25 +318,43 @@ export default function Portfolio({ content }: Props) {
               <article className="project-card" key={project.number}>
                 <div className="project-card-top">
                   <span>{project.number}</span>
-                  <span>{project.status}</span>
+                  <span className="project-status">{project.status}</span>
                 </div>
-                <div className="project-placeholder" aria-hidden="true">
-                  <span>{project.category}</span>
-                  <div className="project-lines">
-                    <i />
-                    <i />
-                    <i />
-                  </div>
-                </div>
+                <ProjectPreview
+                  type={project.preview}
+                  logo={project.logo}
+                  mark={project.mark}
+                />
                 <p className="project-category">{project.category}</p>
                 <h3>{project.title}</h3>
-                <p>{project.description}</p>
+                <p className="project-copy">{project.description}</p>
+                <ul className="project-tech" aria-label="Technologies">
+                  {project.technologies.map((technology) => (
+                    <li key={technology}>{technology}</li>
+                  ))}
+                </ul>
+                {project.href ? (
+                  <a
+                    className="project-cta"
+                    href={project.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {labels.viewProject}
+                    <ArrowIcon />
+                  </a>
+                ) : (
+                  <span className="project-cta">
+                    {labels.viewProject}
+                    <ArrowIcon />
+                  </span>
+                )}
               </article>
             ))}
           </div>
         </section>
 
-        <section className="skills section-wrap">
+        <section className="skills section-wrap" id="education">
           <div className="skills-column">
             <SectionHeading
               kicker={labels.educationKicker}
@@ -345,10 +423,12 @@ export default function Portfolio({ content }: Props) {
             </a>
             <a
               className="icon-button"
-              href={`tel:${shared.contact.phoneHref}`}
-              aria-label={`${labels.phone}: ${shared.contact.phoneDisplay}`}
+              href={shared.contact.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={labels.linkedin}
             >
-              <PhoneIcon />
+              <LinkedInIcon />
             </a>
           </div>
           <div className="contact-meta">
@@ -356,9 +436,13 @@ export default function Portfolio({ content }: Props) {
               <PinIcon />
               {shared.contact.location}
             </span>
-            <a href={`tel:${shared.contact.phoneHref}`}>
-              <PhoneIcon />
-              {shared.contact.phoneDisplay}
+            <a
+              href={shared.contact.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <LinkedInIcon />
+              LinkedIn
             </a>
           </div>
         </section>
@@ -371,7 +455,14 @@ export default function Portfolio({ content }: Props) {
         <p>
           © {new Date().getFullYear()} {shared.contact.name}
         </p>
-        <p>Next.js · TypeScript · Medellín</p>
+        <a
+          className="footer-linkedin"
+          href={shared.contact.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          LinkedIn
+        </a>
       </footer>
     </div>
   );

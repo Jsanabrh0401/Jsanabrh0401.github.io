@@ -5,10 +5,12 @@ export type Locale = (typeof locales)[number];
 export type PortfolioContent = {
   locale: Locale;
   nav: {
+    home: string;
+    stack: string;
     about: string;
     experience: string;
     projects: string;
-    skills: string;
+    education: string;
     contact: string;
   };
   hero: {
@@ -44,11 +46,13 @@ export type PortfolioContent = {
     switchLanguage: string;
     location: string;
     email: string;
-    phone: string;
+    linkedin: string;
+    viewProject: string;
   };
   profile: string;
   experience: Array<{
     company: string;
+    logo: string;
     role: string;
     period: string;
     description: string;
@@ -60,6 +64,12 @@ export type PortfolioContent = {
     category: string;
     description: string;
     status: string;
+    technologies: string[];
+    preview: "web" | "mobile";
+    href?: string;
+    product: string;
+    logo: string;
+    mark: string;
   }>;
   education: Array<{
     institution: string;
@@ -70,23 +80,41 @@ export type PortfolioContent = {
   languages: Array<{ language: string; level: string }>;
 };
 
+export type Technology = {
+  name: string;
+  icon: string;
+  invert?: boolean;
+  scale?: "lg";
+};
+
 const shared = {
   technologies: [
-    "NestJS",
-    "Next.js",
-    "React.js",
-    "TypeScript",
-    "Tailwind CSS",
-    "PostgreSQL",
-    "Redux.js",
-    "React Native",
-    "MongoDB",
-  ],
+    { name: "NestJS", icon: "/tech/nestjs.svg" },
+    { name: "Next.js", icon: "/tech/nextjs.svg", invert: true, scale: "lg" },
+    { name: "React.js", icon: "/tech/react.webp" },
+    { name: "TypeScript", icon: "/tech/typescript.webp", scale: "lg" },
+    { name: "Tailwind CSS", icon: "/tech/tailwind.webp" },
+    { name: "PostgreSQL", icon: "/tech/postgresql.webp" },
+    { name: "Redux.js", icon: "/tech/redux.svg" },
+    { name: "React Native", icon: "/tech/react.webp" },
+    { name: "MongoDB", icon: "/tech/mongo.webp" },
+    { name: "Redis", icon: "/tech/redis.svg" },
+    { name: "Google Cloud", icon: "/tech/googlecloud.webp" },
+    { name: "Supabase", icon: "/tech/supabase.webp" },
+    { name: "Railway", icon: "/tech/railway.svg", invert: true, scale: "lg" },
+    { name: "Vercel", icon: "/tech/vercel.svg", invert: true },
+    { name: "Cloudflare", icon: "/tech/cloudflare.svg" },
+    { name: "Cloudflare R2", icon: "/tech/cloudflare-r2.svg" },
+  ] satisfies Technology[],
+  zyvou: {
+    href: "https://www.zyvou.com",
+    logo: "/project/zyvou-logo.svg",
+    mark: "/project/zyvou-mark.svg",
+  },
   contact: {
     name: "Juan Pablo Sanabria Hoyos",
     email: "juanpablosanabriahoyos@gmail.com",
-    phoneDisplay: "+57 311 642 7061",
-    phoneHref: "+573116427061",
+    linkedin: "https://www.linkedin.com/in/juan-pablo-sanabria-hoyos-5a8599332/",
     location: "Medellín, Colombia",
   },
 };
@@ -95,10 +123,12 @@ export const portfolioContent: Record<Locale, PortfolioContent> = {
   es: {
     locale: "es",
     nav: {
+      home: "Inicio",
+      stack: "Tecnologías",
       about: "Perfil",
       experience: "Experiencia",
       projects: "Proyectos",
-      skills: "Habilidades",
+      education: "Formación",
       contact: "Contacto",
     },
     hero: {
@@ -119,7 +149,7 @@ export const portfolioContent: Record<Locale, PortfolioContent> = {
       projects: "Proyectos seleccionados",
       projectsKicker: "Trabajo",
       projectsNote:
-        "Esta sección está preparada para incorporar próximamente casos de estudio, enlaces y resultados verificables.",
+        "Producto en creación. Dos superficies del mismo ecosistema: la experiencia web pública y la app con la que los técnicos gestionarán su trabajo.",
       stack: "Tecnologías",
       stackKicker: "Stack principal",
       education: "Formación",
@@ -127,31 +157,46 @@ export const portfolioContent: Record<Locale, PortfolioContent> = {
       strengths: "Habilidades",
       languages: "Idiomas",
       contact: "Contacto",
-      contactKicker: "Construyamos algo valioso",
-      contactTitle: "¿Tienes un reto en mente?",
+      contactKicker: "Conversemos",
+      contactTitle: "¿Hablamos?",
       contactCopy:
-        "Estoy abierto a conversar sobre oportunidades, productos digitales y equipos que quieran generar impacto.",
+        "Si quieres conectar, comentar algo del portafolio o simplemente saludar, escríbeme.",
       downloadCv: "Descargar CV",
       openMenu: "Abrir menú",
       closeMenu: "Cerrar menú",
       switchLanguage: "Cambiar idioma",
       location: "Ubicación",
       email: "Correo",
-      phone: "Teléfono",
+      linkedin: "LinkedIn",
+      viewProject: "Ver proyecto",
     },
     profile:
       "Desarrollador de Software Full Stack con experiencia en la creación de soluciones web y móviles escalables utilizando NestJS, Next.js, React.js, TypeScript y PostgreSQL. Me caracterizan el liderazgo, el trabajo colaborativo y la resolución de problemas complejos mediante pensamiento crítico e innovación. Mi objetivo es aportar al crecimiento de las empresas construyendo productos digitales eficientes, seguros y centrados en la experiencia del usuario.",
     experience: [
       {
         company: "Housy Host",
+        logo: "/experience/housy.jpg",
         role: "Desarrollador Full Stack",
         period: "Junio 2025 — Actualmente",
         description:
           "Desarrollo de soluciones web y móviles dentro de un stack moderno, desde la interfaz hasta los servicios y la persistencia de datos.",
-        technologies: shared.technologies,
+        technologies: [
+          "NestJS",
+          "Next.js",
+          "React.js",
+          "TypeScript",
+          "Tailwind CSS",
+          "PostgreSQL",
+          "Redux.js",
+          "React Native",
+          "MongoDB",
+          "Redis",
+          "Google Cloud",
+        ],
       },
       {
         company: "Novacodify",
+        logo: "/experience/Novacodify.webp",
         role: "Desarrollador Full Stack",
         period: "Febrero 2025 — Mayo 2025",
         description:
@@ -169,27 +214,43 @@ export const portfolioContent: Record<Locale, PortfolioContent> = {
     projects: [
       {
         number: "01",
-        title: "Caso de estudio en preparación",
+        product: "Zyvou",
+        title: "Zyvou — Plataforma Web",
         category: "Aplicación web",
+        status: "En creación",
+        preview: "web",
+        href: shared.zyvou.href,
+        logo: shared.zyvou.logo,
+        mark: shared.zyvou.mark,
         description:
-          "Espacio reservado para presentar el problema, el proceso técnico y el impacto de un proyecto destacado.",
-        status: "Próximamente",
+          "Landing page y plataforma web para conectar técnicos independientes con nuevas oportunidades de trabajo. El producto sigue en desarrollo.",
+        technologies: [
+          "Next.js",
+          "React.js",
+          "TypeScript",
+          "Tailwind CSS",
+          "NestJS",
+          "API REST",
+          "Supabase",
+          "Railway",
+          "Vercel",
+          "Cloudflare",
+          "Cloudflare R2",
+        ],
       },
       {
         number: "02",
-        title: "Producto móvil en preparación",
-        category: "React Native",
+        product: "Zyvou",
+        title: "Zyvou — Mobile App",
+        category: "Aplicación móvil",
+        status: "En creación",
+        preview: "mobile",
+        href: shared.zyvou.href,
+        logo: shared.zyvou.logo,
+        mark: shared.zyvou.mark,
         description:
-          "Espacio preparado para documentar arquitectura, decisiones de producto y resultados de una experiencia móvil.",
-        status: "Próximamente",
-      },
-      {
-        number: "03",
-        title: "Plataforma full stack en preparación",
-        category: "Web & API",
-        description:
-          "Próximo caso de estudio con contexto, tecnologías utilizadas y aprendizajes verificables.",
-        status: "Próximamente",
+          "Aplicación móvil para que técnicos independientes gestionen oportunidades, servicios y su actividad dentro de Zyvou. El producto sigue en desarrollo.",
+        technologies: ["React Native", "TypeScript", "React.js"],
       },
     ],
     education: [
@@ -223,10 +284,12 @@ export const portfolioContent: Record<Locale, PortfolioContent> = {
   en: {
     locale: "en",
     nav: {
+      home: "Home",
+      stack: "Technologies",
       about: "Profile",
       experience: "Experience",
       projects: "Projects",
-      skills: "Skills",
+      education: "Education",
       contact: "Contact",
     },
     hero: {
@@ -247,7 +310,7 @@ export const portfolioContent: Record<Locale, PortfolioContent> = {
       projects: "Selected projects",
       projectsKicker: "Work",
       projectsNote:
-        "This section is ready for upcoming case studies, links, and verified outcomes.",
+        "Product in progress. Two surfaces of the same ecosystem: the public web experience and the app technicians will use to manage their work.",
       stack: "Technologies",
       stackKicker: "Core stack",
       education: "Education",
@@ -255,31 +318,46 @@ export const portfolioContent: Record<Locale, PortfolioContent> = {
       strengths: "Skills",
       languages: "Languages",
       contact: "Contact",
-      contactKicker: "Let's build something valuable",
-      contactTitle: "Have a challenge in mind?",
+      contactKicker: "Get in touch",
+      contactTitle: "Want to talk?",
       contactCopy:
-        "I am open to conversations about opportunities, digital products, and teams seeking to create meaningful impact.",
+        "If you'd like to connect, share a thought about the work, or just say hello, write to me.",
       downloadCv: "Download résumé",
       openMenu: "Open menu",
       closeMenu: "Close menu",
       switchLanguage: "Switch language",
       location: "Location",
       email: "Email",
-      phone: "Phone",
+      linkedin: "LinkedIn",
+      viewProject: "View project",
     },
     profile:
       "Full Stack Software Developer with experience building scalable web and mobile solutions using NestJS, Next.js, React.js, TypeScript, and PostgreSQL. I bring leadership, collaborative work, and the ability to solve complex problems through critical thinking and innovation. My goal is to support company growth by building efficient, secure, and user-centered digital products.",
     experience: [
       {
         company: "Housy Host",
+        logo: "/experience/housy.jpg",
         role: "Full Stack Developer",
         period: "June 2025 — Present",
         description:
           "Building web and mobile solutions across a modern stack, from user interfaces to services and data persistence.",
-        technologies: shared.technologies,
+        technologies: [
+          "NestJS",
+          "Next.js",
+          "React.js",
+          "TypeScript",
+          "Tailwind CSS",
+          "PostgreSQL",
+          "Redux.js",
+          "React Native",
+          "MongoDB",
+          "Redis",
+          "Google Cloud",
+        ],
       },
       {
         company: "Novacodify",
+        logo: "/experience/Novacodify.webp",
         role: "Full Stack Developer",
         period: "February 2025 — May 2025",
         description:
@@ -297,27 +375,43 @@ export const portfolioContent: Record<Locale, PortfolioContent> = {
     projects: [
       {
         number: "01",
-        title: "Case study in progress",
+        product: "Zyvou",
+        title: "Zyvou — Web Platform",
         category: "Web application",
+        status: "In progress",
+        preview: "web",
+        href: shared.zyvou.href,
+        logo: shared.zyvou.logo,
+        mark: shared.zyvou.mark,
         description:
-          "Reserved for a detailed look at the problem, technical process, and impact of a featured project.",
-        status: "Coming soon",
+          "Landing page and web platform that connects independent technicians with new work opportunities. The product is still in development.",
+        technologies: [
+          "Next.js",
+          "React.js",
+          "TypeScript",
+          "Tailwind CSS",
+          "NestJS",
+          "API REST",
+          "Supabase",
+          "Railway",
+          "Vercel",
+          "Cloudflare",
+          "Cloudflare R2",
+        ],
       },
       {
         number: "02",
-        title: "Mobile product in progress",
-        category: "React Native",
+        product: "Zyvou",
+        title: "Zyvou — Mobile App",
+        category: "Mobile application",
+        status: "In progress",
+        preview: "mobile",
+        href: shared.zyvou.href,
+        logo: shared.zyvou.logo,
+        mark: shared.zyvou.mark,
         description:
-          "Prepared to document architecture, product decisions, and outcomes from a mobile experience.",
-        status: "Coming soon",
-      },
-      {
-        number: "03",
-        title: "Full stack platform in progress",
-        category: "Web & API",
-        description:
-          "Upcoming case study featuring context, technologies, and verified learnings.",
-        status: "Coming soon",
+          "Mobile app for independent technicians to manage opportunities, services, and their activity inside Zyvou. The product is still in development.",
+        technologies: ["React Native", "TypeScript", "React.js"],
       },
     ],
     education: [

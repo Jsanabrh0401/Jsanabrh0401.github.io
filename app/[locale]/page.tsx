@@ -63,13 +63,13 @@ export default async function LocalizedPortfolio({ params }: PageProps) {
     jobTitle:
       locale === "es" ? "Desarrollador Full Stack" : "Full Stack Developer",
     email: `mailto:${shared.contact.email}`,
-    telephone: shared.contact.phoneDisplay,
+    sameAs: [shared.contact.linkedin],
     address: {
       "@type": "PostalAddress",
       addressLocality: "Medellín",
       addressCountry: "CO",
     },
-    knowsAbout: shared.technologies,
+    knowsAbout: shared.technologies.map((item) => item.name),
   };
 
   return (

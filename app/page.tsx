@@ -19,13 +19,13 @@ export default function Home() {
     name: shared.contact.name,
     jobTitle: "Desarrollador Full Stack",
     email: `mailto:${shared.contact.email}`,
-    telephone: shared.contact.phoneDisplay,
+    sameAs: [shared.contact.linkedin],
     address: {
       "@type": "PostalAddress",
       addressLocality: "Medellín",
       addressCountry: "CO",
     },
-    knowsAbout: shared.technologies,
+    knowsAbout: shared.technologies.map((item) => item.name),
   };
 
   return (
