@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="glow" cx="75%" cy="20%" r="75%">
+      <stop offset="0" stop-color="#1b4435"/>
+      <stop offset="1" stop-color="#07090d"/>
+    </radialGradient>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M64 0H0V64" fill="none" stroke="#fff" stroke-opacity=".045"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <text x="76" y="100" fill="#83f7c2" font-family="monospace" font-size="21" letter-spacing="5">FULL STACK DEVELOPER</text>
+  <text x="72" y="280" fill="#f3f6f7" font-family="Arial, sans-serif" font-size="94" font-weight="600" letter-spacing="-6">Juan Pablo</text>
+  <text x="72" y="380" fill="none" stroke="#aab2b7" stroke-width="2" font-family="Arial, sans-serif" font-size="94" font-weight="600" letter-spacing="-6">Sanabria</text>
+  <line x1="76" y1="485" x2="236" y2="485" stroke="#83f7c2" stroke-width="3"/>
+  <text x="76" y="536" fill="#929ca8" font-family="monospace" font-size="20" letter-spacing="2">NEXT.JS · NESTJS · REACT · TYPESCRIPT</text>
+  <circle cx="1020" cy="315" r="104" fill="none" stroke="#83f7c2" stroke-opacity=".2"/>
+  <circle cx="1020" cy="315" r="76" fill="#0d1118" stroke="#fff" stroke-opacity=".08"/>
+  <text x="1020" y="340" text-anchor="middle" fill="#83f7c2" font-family="Arial, sans-serif" font-size="70" font-weight="700" letter-spacing="-7">JP</text>
+</svg>
